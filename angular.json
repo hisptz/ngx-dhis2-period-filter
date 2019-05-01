@@ -18,8 +18,13 @@
             "main": "demo/main.ts",
             "polyfills": "demo/polyfills.ts",
             "tsConfig": "demo/tsconfig.app.json",
-            "assets": ["demo/favicon.ico", "demo/assets"],
-            "styles": ["demo/styles.css"],
+            "assets": [
+              "demo/favicon.ico",
+              "demo/assets"
+            ],
+            "styles": [
+              "demo/styles.css"
+            ],
             "scripts": [],
             "es5BrowserSupport": true
           },
@@ -74,16 +79,26 @@
             "polyfills": "demo/polyfills.ts",
             "tsConfig": "demo/tsconfig.spec.json",
             "karmaConfig": "demo/karma.conf.js",
-            "styles": ["demo/styles.css"],
+            "styles": [
+              "demo/styles.css"
+            ],
             "scripts": [],
-            "assets": ["demo/favicon.ico", "demo/assets"]
+            "assets": [
+              "demo/favicon.ico",
+              "demo/assets"
+            ]
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["demo/tsconfig.app.json", "demo/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
+            "tsConfig": [
+              "demo/tsconfig.app.json",
+              "demo/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
@@ -109,7 +124,44 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "ngx-dhis2-period-filter": {
+      "root": "projects/ngx-dhis2-period-filter",
+      "sourceRoot": "projects/ngx-dhis2-period-filter/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ngx-dhis2-period-filter/tsconfig.lib.json",
+            "project": "projects/ngx-dhis2-period-filter/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-dhis2-period-filter/src/test.ts",
+            "tsConfig": "projects/ngx-dhis2-period-filter/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-dhis2-period-filter/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-dhis2-period-filter/tsconfig.lib.json",
+              "projects/ngx-dhis2-period-filter/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
