@@ -23,7 +23,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
   @Input() selectedPeriodType;
   @Input() selectedPeriods: any[];
   @Input()
-  periodConfig: any = {
+  periodFilterConfig: any = {
     resetOnPeriodTypeChange: false,
     emitOnSelection: false,
     singleSelection: false
@@ -77,7 +77,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
   onSelectPeriod(period, e) {
     e.stopPropagation();
 
-    if (this.periodConfig.singleSelection) {
+    if (this.periodFilterConfig.singleSelection) {
       this.selectedPeriods = [];
     }
 
@@ -104,7 +104,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
   updatePeriodType(periodType: string, e) {
     e.stopPropagation();
 
-    if (this.periodConfig.resetOnPeriodTypeChange) {
+    if (this.periodFilterConfig.resetOnPeriodTypeChange) {
       this.selectedPeriods = [];
     }
 
@@ -144,7 +144,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
     // remove all periods from available
     this.availablePeriods = [];
 
-    if (this.periodConfig.emitOnSelection) {
+    if (this.periodFilterConfig.emitOnSelection) {
       this.getPeriodOutput();
     }
   }
@@ -161,7 +161,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
       []
     );
 
-    if (this.periodConfig.emitOnSelection) {
+    if (this.periodFilterConfig.emitOnSelection) {
       this.getPeriodOutput();
     }
   }
