@@ -1,1 +1,48 @@
-<ngx-dhis2-period-filter></ngx-dhis2-period-filter>
+<div class="container-fluid">
+  <div class="row" style="margin-top: 30px;">
+    <div class="col-12">
+      <h4>Period filter demo</h4>
+      <p>Demo for DHIS2 based period filter</p>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 20px;">
+    <div class="col-md-4">
+      <b>INPUTS</b>
+      <code class="card" style="height: 390px">
+        <div class="card-body">
+          <div>
+            <code>CONFIG: {{ periodFilterConfig | json }}</code>
+          </div>
+          <div>
+            <code>SELECTED ITEMS: {{ selectedPeriodItems | json }}</code>
+          </div>
+        </div>
+      </code>
+    </div>
+    <div class="col-md-4">
+      <b>PERIOD FILTER</b>
+      <div class="card">
+        <div class="card-body" style="padding: 5px;">
+          <ngx-dhis2-period-filter
+            [selectedPeriods]="selectedPeriodItems"
+            (periodFilterUpdate)="onPeriodUpdate($event, 'UPDATE')"
+            (periodFilterClose)="onPeriodUpdate($event, 'CLOSE')"
+          ></ngx-dhis2-period-filter>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <b>OUTPUT</b>
+      <code class="card" style="height: 390px; overflow: auto;">
+        <div class="card-body">
+          <div>
+            <code>ACTION: {{ action }}</code>
+          </div>
+          <div>
+            <code>PAYLOAD: {{ periodObject | json }}</code>
+          </div>
+        </div>
+      </code>
+    </div>
+  </div>
+</div>

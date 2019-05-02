@@ -18,11 +18,9 @@
             "main": "demo/main.ts",
             "polyfills": "demo/polyfills.ts",
             "tsConfig": "demo/tsconfig.app.json",
-            "assets": [
-              "demo/favicon.ico",
-              "demo/assets"
-            ],
+            "assets": ["demo/favicon.ico", "demo/assets"],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
               "demo/styles.css"
             ],
             "scripts": [],
@@ -79,26 +77,16 @@
             "polyfills": "demo/polyfills.ts",
             "tsConfig": "demo/tsconfig.spec.json",
             "karmaConfig": "demo/karma.conf.js",
-            "styles": [
-              "demo/styles.css"
-            ],
+            "styles": ["demo/styles.css"],
             "scripts": [],
-            "assets": [
-              "demo/favicon.ico",
-              "demo/assets"
-            ]
+            "assets": ["demo/favicon.ico", "demo/assets"]
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "demo/tsconfig.app.json",
-              "demo/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["demo/tsconfig.app.json", "demo/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -124,9 +112,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -135,7 +121,7 @@
       "root": "projects/ngx-dhis2-period-filter",
       "sourceRoot": "projects/ngx-dhis2-period-filter/src",
       "projectType": "library",
-      "prefix": "lib",
+      "prefix": "ngx-dhis2",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -159,9 +145,7 @@
               "projects/ngx-dhis2-period-filter/tsconfig.lib.json",
               "projects/ngx-dhis2-period-filter/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }

@@ -26,9 +26,11 @@
         "dist/hisptz/ngx-dhis2-period-filter/*"
       ],
       "ngx-dhis2-period-filter": [
+        "dist/ngx-dhis2-period-filter",
         "dist/ngx-dhis2-period-filter"
       ],
       "ngx-dhis2-period-filter/*": [
+        "dist/ngx-dhis2-period-filter/*",
         "dist/ngx-dhis2-period-filter/*"
       ]
     }
