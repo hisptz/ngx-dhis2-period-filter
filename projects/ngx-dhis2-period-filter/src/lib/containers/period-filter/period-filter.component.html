@@ -84,7 +84,7 @@
       <ul class="period-list">
         <li *ngFor="let selectedPeriod of selectedPeriods">
           <a (click)="onDeselectPeriod(selectedPeriod, $event)">
-            <span class="badge badge-primary">{{ selectedPeriod.type }}</span
+            <span class="badge badge-info">{{ selectedPeriod.type }}</span
             >&nbsp;
             <span>{{ selectedPeriod.name }}</span>
           </a>
