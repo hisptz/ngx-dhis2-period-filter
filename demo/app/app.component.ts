@@ -31,6 +31,7 @@ export class AppComponent {
   ];
 
   onPeriodUpdate(periodObject, action) {
+    console.log(periodObject);
     this.periodObject = periodObject;
     this.action = action;
   }
