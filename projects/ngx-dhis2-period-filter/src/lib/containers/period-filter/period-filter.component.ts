@@ -28,8 +28,9 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
     emitOnSelection: false,
     singleSelection: false
   };
-  @Output() periodFilterUpdate = new EventEmitter();
-  @Output() periodFilterClose = new EventEmitter();
+
+  @Output() update = new EventEmitter();
+  @Output() close = new EventEmitter();
 
   availablePeriods: any[];
   selectedYear: number;
@@ -40,7 +41,6 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
     const date = new Date();
     this.selectedYear = date.getFullYear();
     this.currentYear = date.getFullYear();
-    this.periodTypes = PERIOD_TYPES;
     this.periodTypes = PERIOD_TYPES;
   }
 
@@ -63,15 +63,15 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
     this.selectedPeriods = getSanitizedPeriods(this.selectedPeriods);
 
     // Get selected period type if not supplied
-    if (!selectedPeriodType && this.selectedPeriods[0]) {
-      this.selectedPeriodType = this.selectedPeriods[0].type;
+    if (!selectedPeriodType) {
+      if (this.selectedPeriods[0]) {
+        this.selectedPeriodType = this.selectedPeriods[0].type || 'Monthly';
+      } else {
+        this.selectedPeriodType = 'Monthly';
+      }
     }
 
-    this.availablePeriods = getAvailablePeriods(
-      this.selectedPeriodType,
-      this.selectedYear,
-      this.selectedPeriods
-    );
+    this._setAvailablePeriods(this.selectedPeriodType);
   }
 
   onSelectPeriod(period, e) {
@@ -108,31 +108,19 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
       this.selectedPeriods = [];
     }
 
-    this.availablePeriods = getAvailablePeriods(
-      periodType,
-      this.selectedYear,
-      this.selectedPeriods
-    );
+    this._setAvailablePeriods(periodType);
   }
 
   pushPeriodBackward(e) {
     e.stopPropagation();
     this.selectedYear--;
-    this.availablePeriods = getAvailablePeriods(
-      this.selectedPeriodType,
-      this.selectedYear,
-      this.selectedPeriods
-    );
+    this._setAvailablePeriods(this.selectedPeriodType);
   }
 
   pushPeriodForward(e) {
     e.stopPropagation();
     this.selectedYear++;
-    this.availablePeriods = getAvailablePeriods(
-      this.selectedPeriodType,
-      this.selectedYear,
-      this.selectedPeriods
-    );
+    this._setAvailablePeriods(this.selectedPeriodType);
   }
 
   onSelectAllPeriods(e) {
@@ -145,7 +133,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
     this.availablePeriods = [];
 
     if (this.periodFilterConfig.emitOnSelection) {
-      this.getPeriodOutput();
+      this._onUpdatePeriod();
     }
   }
 
@@ -162,13 +150,18 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
     );
 
     if (this.periodFilterConfig.emitOnSelection) {
-      this.getPeriodOutput();
+      this._onUpdatePeriod();
     }
   }
 
-  updatePeriod(e) {
+  onUpdate(e) {
     e.stopPropagation();
-    this.getPeriodOutput();
+    this._onUpdatePeriod();
+  }
+
+  onClose(e) {
+    e.stopPropagation();
+    this.close.emit(this._getPeriodSelection());
   }
 
   private _getPeriodSelection() {
@@ -179,12 +172,15 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
     };
   }
 
-  getPeriodOutput() {
-    this.periodFilterUpdate.emit(this._getPeriodSelection());
+  private _onUpdatePeriod() {
+    this.update.emit(this._getPeriodSelection());
   }
 
-  closePeriodFilter(e) {
-    e.stopPropagation();
-    this.periodFilterClose.emit(this._getPeriodSelection);
+  private _setAvailablePeriods(periodType: string) {
+    this.availablePeriods = getAvailablePeriods(
+      periodType,
+      this.selectedYear,
+      this.selectedPeriods
+    );
   }
 }

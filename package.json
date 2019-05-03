@@ -27,7 +27,7 @@
     "lodash": "^4.17.11",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
-    "zone.js": "~0.9.0"
+    "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",
@@ -37,7 +37,7 @@
     "@angular/language-service": "~7.2.14",
     "@types/jasmine": "~3.3.12",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "~11.13.8",
+    "@types/node": "~11.13.9",
     "codelyzer": "~5.0.1",
     "commitizen": "^3.1.1",
     "cz-conventional-changelog": "^2.1.0",
@@ -55,7 +55,7 @@
     "tsickle": ">=0.34.0",
     "tslib": "^1.9.0",
     "tslint": "~5.16.0",
-    "typescript": "~3.4.5"
+    "typescript": "~3.2.4"
   },
   "config": {
     "commitizen": {
