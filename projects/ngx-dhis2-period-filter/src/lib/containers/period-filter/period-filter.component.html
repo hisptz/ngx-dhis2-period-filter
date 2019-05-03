@@ -84,7 +84,7 @@
       <ul class="period-list">
         <li *ngFor="let selectedPeriod of selectedPeriods">
           <a (click)="onDeselectPeriod(selectedPeriod, $event)">
-            <span class="badge badge-primary">{{ selectedPeriod.type }}</span
+            <span class="badge badge-info">{{ selectedPeriod.type }}</span
             >&nbsp;
             <span>{{ selectedPeriod.name }}</span>
           </a>
@@ -97,13 +97,13 @@
   <!--period footer-->
   <div class="period-filter-btns">
     <div>
-      <button class="btn btn-light btn-sm" (click)="closePeriodFilter($event)">
+      <button class="btn btn-light btn-sm" (click)="onClose($event)">
         CLOSE</button
       >&nbsp;
       <button
         class="btn btn-light btn-sm"
         [disabled]="selectedPeriods.length === 0"
-        (click)="updatePeriod($event)"
+        (click)="onUpdate($event)"
       >
         UPDATE
       </button>
