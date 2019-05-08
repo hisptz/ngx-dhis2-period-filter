@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build-lib": "ng build ngx-dhis2-period-filter",
     "build": "npm run build-lib && ng build --prod --aot",
-    "build-lib-dev": "npm run build-lib && cd dist/ngx-dhis2-period-filter && npm pack && cd ../../ && npm install dist/ngx-dhis2-period-filter/*.tgz",
+    "build-lib-dev": "npm run build-lib && cd dist/ngx-dhis2-period-filter && npm pack && cd ../../",
     "publish": "npm run build-lib && cd dist/ngx-dhis2-period-filter && npm publish --access public && cd ../../",
     "test": "ng test",
     "lint": "ng lint",

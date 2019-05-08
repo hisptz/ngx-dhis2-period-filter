@@ -132,3 +132,14 @@
 .period-list > li > a:hover {
   background-color: #dddddd;
 }
+
+.ngx-dhis2-period__period-buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
+}
+
+.ngx-dhis2-period__period-buttons button {
+  background-color: transparent;
+}
