@@ -5,7 +5,8 @@ import {
   Input,
   Output,
   EventEmitter,
-  SimpleChanges
+  SimpleChanges,
+  OnDestroy
 } from '@angular/core';
 import { PERIOD_TYPES } from '../../constants/period-types.constant';
 import { getPeriodType } from '../../helpers /get-period-type.helper';
@@ -19,7 +20,7 @@ import { getSanitizedPeriods } from '../../helpers /get-sanitized-periods.helper
   templateUrl: './period-filter.component.html',
   styleUrls: ['./period-filter.component.css']
 })
-export class PeriodFilterComponent implements OnInit, OnChanges {
+export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selectedPeriodType;
   @Input() selectedPeriods: any[];
   @Input()
@@ -161,6 +162,10 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
 
   onClose(e) {
     e.stopPropagation();
+    this.close.emit(this._getPeriodSelection());
+  }
+
+  ngOnDestroy() {
     this.close.emit(this._getPeriodSelection());
   }
 
