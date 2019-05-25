@@ -1,33 +1,37 @@
 <div class="period-filter-container">
   <!--period type and year selection block-->
-  <div class="period-top-section">
-    <div class="period-type-section">
-      <select
-        [(ngModel)]="selectedPeriodType"
-        (change)="updatePeriodType(selectedPeriodType, $event)"
-        class="form-control form-control-sm pull-left period-type-selection"
-      >
-        <option [value]="''" disabled>Select period type</option>
-        <option
-          *ngFor="let periodType of periodTypes"
-          [value]="periodType.value"
-          [hidden]="!periodType.shown"
-          >{{ periodType.name }}</option
+  <div class="row">
+    <div class="col-8">
+      <mat-form-field>
+        <mat-label>Period type</mat-label>
+        <mat-select
+          [(ngModel)]="selectedPeriodType"
+          (ngModelChange)="updatePeriodType()"
+          name="periodType"
         >
-      </select>
+          <mat-option
+            *ngFor="let periodType of periodTypes"
+            [value]="periodType.value"
+            [hidden]="!periodType.shown"
+            >{{ periodType.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
     </div>
-    <div class="period-year-section">
-      <div class="btn-group btn-group-sm">
+    <div class="col-4">
+      <div class="btn-group float-right">
         <button
           type="button"
-          class="btn btn-sm btn-outline-secondary"
+          mat-stroked-button
+          class="ml-2 period-btn"
           (click)="pushPeriodBackward($event)"
         >
           Prev Year
         </button>
         <button
           type="button"
-          class="btn btn-sm btn-outline-secondary"
+          mat-stroked-button
+          class="ml-2 period-btn"
           (click)="pushPeriodForward($event)"
           [disabled]="selectedYear === currentYear"
         >
@@ -47,20 +51,22 @@
         >{{ availablePeriods.length }} Available</span
       >
       <button
-        title="Select all periods"
-        class="btn btn-sm btn-light"
+        matTooltip="Select all periods"
+        mat-icon-button
+        class="period-btn"
         (click)="onSelectAllPeriods($event)"
       >
-        &raquo;
+        <i class="fa fa-arrow-right"></i>
       </button>
     </div>
     <div class="period-selected-header">
       <button
-        title="Unselect all periods"
-        class="btn btn-sm btn-light"
+        matTooltip="Unselect all periods"
+        mat-icon-button
+        class="period-btn"
         (click)="onDeselectAllPeriods($event)"
       >
-        &laquo;
+        <i class="fa fa-arrow-left"></i>
       </button>
       <span class="badge badge-primary period-badge">
         {{ selectedPeriods.length }} Selected</span
@@ -73,7 +79,10 @@
   <div class="period-body">
     <div class="period-available-body">
       <ul class="period-list">
-        <li *ngFor="let availablePeriod of availablePeriods">
+        <li
+          *ngFor="let availablePeriod of availablePeriods"
+          matTooltip="Select {{ availablePeriod.name }}"
+        >
           <a (click)="onSelectPeriod(availablePeriod, $event)">
             {{ availablePeriod.name }}
           </a>
@@ -82,7 +91,10 @@
     </div>
     <div class="period-selected-body">
       <ul class="period-list">
-        <li *ngFor="let selectedPeriod of selectedPeriods">
+        <li
+          *ngFor="let selectedPeriod of selectedPeriods"
+          matTooltip="Remove {{ selectedPeriod.name }}"
+        >
           <a (click)="onDeselectPeriod(selectedPeriod, $event)">
             <span class="badge badge-info">{{ selectedPeriod.type }}</span
             >&nbsp;
@@ -97,15 +109,17 @@
   <!--period footer-->
   <div class="ngx-dhis2-period__period-buttons">
     <div>
-      <button class="btn btn-light btn-sm" (click)="onClose($event)">
-        CLOSE</button
-      >&nbsp;
+      <button mat-stroked-button (click)="onClose($event)">
+        Close
+      </button>
       <button
-        class="btn btn-light btn-sm"
+        mat-stroked-button
+        color="primary"
+        class="ml-2"
         [disabled]="selectedPeriods.length === 0"
         (click)="onUpdate($event)"
       >
-        UPDATE
+        Update
       </button>
     </div>
   </div>

@@ -102,14 +102,12 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  updatePeriodType(periodType: string, e) {
-    e.stopPropagation();
-
+  updatePeriodType() {
     if (this.periodFilterConfig.resetOnPeriodTypeChange) {
       this.selectedPeriods = [];
     }
 
-    this._setAvailablePeriods(periodType);
+    this._setAvailablePeriods(this.selectedPeriodType);
   }
 
   pushPeriodBackward(e) {
