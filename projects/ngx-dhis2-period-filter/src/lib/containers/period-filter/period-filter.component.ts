@@ -5,21 +5,22 @@ import {
   Input,
   Output,
   EventEmitter,
-  SimpleChanges
+  SimpleChanges,
+  OnDestroy
 } from '@angular/core';
 import { PERIOD_TYPES } from '../../constants/period-types.constant';
-import { getPeriodType } from '../../helpers /get-period-type.helper';
-import { getAvailablePeriods } from '../../helpers /get-available-periods.helper';
-import { removePeriodFromList } from '../../helpers /remove-period-from-list.helper';
-import { addPeriodToList } from '../../helpers /add-period-to-list.helper';
-import { getSanitizedPeriods } from '../../helpers /get-sanitized-periods.helper';
+import { getPeriodType } from '../../helpers/get-period-type.helper';
+import { getAvailablePeriods } from '../../helpers/get-available-periods.helper';
+import { removePeriodFromList } from '../../helpers/remove-period-from-list.helper';
+import { addPeriodToList } from '../../helpers/add-period-to-list.helper';
+import { getSanitizedPeriods } from '../../helpers/get-sanitized-periods.helper';
 
 @Component({
   selector: 'ngx-dhis2-period-filter',
   templateUrl: './period-filter.component.html',
   styleUrls: ['./period-filter.component.css']
 })
-export class PeriodFilterComponent implements OnInit, OnChanges {
+export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selectedPeriodType;
   @Input() selectedPeriods: any[];
   @Input()
@@ -101,14 +102,12 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
     });
   }
 
-  updatePeriodType(periodType: string, e) {
-    e.stopPropagation();
-
+  updatePeriodType() {
     if (this.periodFilterConfig.resetOnPeriodTypeChange) {
       this.selectedPeriods = [];
     }
 
-    this._setAvailablePeriods(periodType);
+    this._setAvailablePeriods(this.selectedPeriodType);
   }
 
   pushPeriodBackward(e) {
@@ -127,7 +126,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
     e.stopPropagation();
 
     // Add all period to selected bucket
-    this.selectedPeriods = this.availablePeriods;
+    this.selectedPeriods = [...this.availablePeriods, ...this.selectedPeriods];
 
     // remove all periods from available
     this.availablePeriods = [];
@@ -161,6 +160,10 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
 
   onClose(e) {
     e.stopPropagation();
+    this.close.emit(this._getPeriodSelection());
+  }
+
+  ngOnDestroy() {
     this.close.emit(this._getPeriodSelection());
   }
 
