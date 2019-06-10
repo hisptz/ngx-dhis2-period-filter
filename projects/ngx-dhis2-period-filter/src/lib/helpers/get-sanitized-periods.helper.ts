@@ -3,10 +3,14 @@ import { getPeriodName } from './get-period-name.helper';
 
 export function getSanitizedPeriods(periods: any[]) {
   return (periods || []).map((period: any) => {
-    const periodType = period.type || getPeriodType(period);
+    const periodId = period.id.toString();
+    const periodType =
+      period.type || getPeriodType({ ...period, id: periodId });
+
     return {
       ...period,
-      name: getPeriodName(period.id, periodType),
+      id: periodId,
+      name: getPeriodName(periodId, periodType),
       type: periodType
     };
   });

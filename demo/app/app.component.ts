@@ -13,7 +13,7 @@ export class AppComponent {
     singleSelection: false
   };
   selectedPeriodItems: any[] = [
-    { id: '2016' },
+    { id: 2016 },
     { id: '201801' },
     { id: 'THIS_MONTH' },
     { id: 'THIS_QUARTER' },
