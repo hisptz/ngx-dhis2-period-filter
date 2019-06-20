@@ -14,6 +14,7 @@ import { getAvailablePeriods } from '../../helpers/get-available-periods.helper'
 import { removePeriodFromList } from '../../helpers/remove-period-from-list.helper';
 import { addPeriodToList } from '../../helpers/add-period-to-list.helper';
 import { getSanitizedPeriods } from '../../helpers/get-sanitized-periods.helper';
+import { Fn } from '@iapps/function-analytics';
 
 @Component({
   selector: 'ngx-dhis2-period-filter',
@@ -37,12 +38,13 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
   selectedYear: number;
   currentYear: number;
   periodTypes: any[];
+  periodInstance: any;
 
   constructor() {
-    const date = new Date();
-    this.selectedYear = date.getFullYear();
-    this.currentYear = date.getFullYear();
-    this.periodTypes = PERIOD_TYPES;
+    const periodTypeInstance = new Fn.PeriodType();
+    this.periodInstance = new Fn.Period();
+
+    this.periodTypes = periodTypeInstance.get();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -71,6 +73,13 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
         this.selectedPeriodType = 'Monthly';
       }
     }
+
+    this.periodInstance
+      .setType(this.selectedPeriodType)
+      .setCalendar('ethiopian')
+      .get();
+
+    this.selectedYear = this.currentYear = this.periodInstance.year();
 
     this._setAvailablePeriods(this.selectedPeriodType);
   }
@@ -107,18 +116,22 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
       this.selectedPeriods = [];
     }
 
+    this.periodInstance.setType(this.selectedPeriodType).get();
+
     this._setAvailablePeriods(this.selectedPeriodType);
   }
 
   pushPeriodBackward(e) {
     e.stopPropagation();
     this.selectedYear--;
+    this.periodInstance.setYear(this.selectedYear).get();
     this._setAvailablePeriods(this.selectedPeriodType);
   }
 
   pushPeriodForward(e) {
     e.stopPropagation();
     this.selectedYear++;
+    this.periodInstance.setYear(this.selectedYear).get();
     this._setAvailablePeriods(this.selectedPeriodType);
   }
 
@@ -145,7 +158,8 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     this.availablePeriods = getAvailablePeriods(
       this.selectedPeriodType,
       this.selectedYear,
-      []
+      [],
+      this.periodInstance.list()
     );
 
     if (this.periodFilterConfig.emitOnSelection) {
@@ -183,7 +197,8 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     this.availablePeriods = getAvailablePeriods(
       periodType,
       this.selectedYear,
-      this.selectedPeriods
+      this.selectedPeriods,
+      this.periodInstance.list()
     );
   }
 }

@@ -11,8 +11,7 @@
         >
           <mat-option
             *ngFor="let periodType of periodTypes"
-            [value]="periodType.value"
-            [hidden]="!periodType.shown"
+            [value]="periodType.id"
             >{{ periodType.name }}</mat-option
           >
         </mat-select>
