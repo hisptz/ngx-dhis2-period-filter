@@ -8,7 +8,11 @@ import { Fn } from '@iapps/function-analytics';
 })
 export class AppComponent {
   constructor() {
-    Fn.init('../');
+    if (Fn) {
+      Fn.init({
+        baseUrl: '../../../api/'
+      });
+    }
   }
   title = 'ngx-dhis2-period-filter';
   periodObject: any;

@@ -79,7 +79,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
       .setCalendar('ethiopian')
       .get();
 
-    this.selectedYear = this.currentYear = this.periodInstance.year();
+    this.selectedYear = this.currentYear = this.periodInstance.currentYear();
 
     this._setAvailablePeriods(this.selectedPeriodType);
   }
