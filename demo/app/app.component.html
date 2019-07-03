@@ -25,6 +25,7 @@
         <div class="card-body" style="padding: 5px;">
           <ngx-dhis2-period-filter
             [selectedPeriods]="selectedPeriodItems"
+            [periodFilterConfig]="periodFilterConfig"
             (update)="onPeriodUpdate($event, 'UPDATE')"
             (close)="onPeriodUpdate($event, 'CLOSE')"
           ></ngx-dhis2-period-filter>

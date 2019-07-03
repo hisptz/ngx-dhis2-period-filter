@@ -30,4 +30,10 @@ export * from './lib/helpers/get-sanitized-periods.helper';
 export * from './lib/helpers/remove-period-from-list.helper';
 
 // constants
-export * from './lib/constants/period-types.constant';
+export { PERIOD_TYPES } from './lib/constants/period-types.constant';
+export {
+  periodFilterConfig
+} from './lib/constants/period-filter-config.constant';
+
+// models
+export { PeriodFilterConfig } from './lib/models/period-filter-config.model';

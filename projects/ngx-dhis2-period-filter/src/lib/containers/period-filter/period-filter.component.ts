@@ -15,6 +15,8 @@ import { removePeriodFromList } from '../../helpers/remove-period-from-list.help
 import { addPeriodToList } from '../../helpers/add-period-to-list.helper';
 import { getSanitizedPeriods } from '../../helpers/get-sanitized-periods.helper';
 import { Fn } from '@iapps/function-analytics';
+import { PeriodFilterConfig } from '../../models/period-filter-config.model';
+import { periodFilterConfig } from '../../constants/period-filter-config.constant';
 
 @Component({
   selector: 'ngx-dhis2-period-filter',
@@ -25,11 +27,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selectedPeriodType;
   @Input() selectedPeriods: any[];
   @Input()
-  periodFilterConfig: any = {
-    resetOnPeriodTypeChange: false,
-    emitOnSelection: false,
-    singleSelection: false
-  };
+  periodFilterConfig: PeriodFilterConfig;
   @Input()
   calendar: string;
 
@@ -47,7 +45,6 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     this.periodInstance = new Fn.Period();
 
     this.periodTypes = periodTypeInstance.get();
-    this.calendar = 'ethiopian';
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -67,6 +64,11 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
 
   private _setPeriodProperties(selectedPeriodType) {
     this.selectedPeriods = getSanitizedPeriods(this.selectedPeriods);
+
+    this.periodFilterConfig = {
+      ...periodFilterConfig,
+      ...(this.periodFilterConfig || {})
+    };
 
     // Get selected period type if not supplied
     if (!selectedPeriodType) {
@@ -99,6 +101,10 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
 
     // Remove selected period to available bucket
     this.availablePeriods = removePeriodFromList(this.availablePeriods, period);
+
+    if (this.periodFilterConfig.emitOnSelection) {
+      this._onUpdatePeriod();
+    }
   }
 
   onDeselectPeriod(period: any, e) {
@@ -112,6 +118,10 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
       ...period,
       type: period.type || getPeriodType([period])
     });
+
+    if (this.periodFilterConfig.emitOnSelection) {
+      this._onUpdatePeriod();
+    }
   }
 
   updatePeriodType() {
