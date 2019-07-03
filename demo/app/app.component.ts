@@ -25,7 +25,6 @@ export class AppComponent {
   selectedPeriodItems: any[] = [];
 
   onPeriodUpdate(periodObject, action) {
-    console.log(periodObject);
     this.periodObject = periodObject;
     this.action = action;
   }

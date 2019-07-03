@@ -33,6 +33,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() update = new EventEmitter();
   @Output() close = new EventEmitter();
+  @Output() change = new EventEmitter();
 
   availablePeriods: any[];
   selectedYear: number;
@@ -103,7 +104,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     this.availablePeriods = removePeriodFromList(this.availablePeriods, period);
 
     if (this.periodFilterConfig.emitOnSelection) {
-      this._onUpdatePeriod();
+      this._onUpdatePeriod(false);
     }
   }
 
@@ -120,7 +121,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     });
 
     if (this.periodFilterConfig.emitOnSelection) {
-      this._onUpdatePeriod();
+      this._onUpdatePeriod(false);
     }
   }
 
@@ -158,7 +159,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     this.availablePeriods = [];
 
     if (this.periodFilterConfig.emitOnSelection) {
-      this._onUpdatePeriod();
+      this._onUpdatePeriod(false);
     }
   }
 
@@ -176,7 +177,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     );
 
     if (this.periodFilterConfig.emitOnSelection) {
-      this._onUpdatePeriod();
+      this._onUpdatePeriod(false);
     }
   }
 
@@ -202,8 +203,12 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     };
   }
 
-  private _onUpdatePeriod() {
-    this.update.emit(this._getPeriodSelection());
+  private _onUpdatePeriod(isUpdate: boolean = true) {
+    if (isUpdate) {
+      this.update.emit(this._getPeriodSelection());
+    } else {
+      this.change.emit(this._getPeriodSelection());
+    }
   }
 
   private _setAvailablePeriods(periodType: string) {
