@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Fn } from '@iapps/function-analytics';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  constructor() {
+    if (Fn) {
+      Fn.init({
+        baseUrl: '../../../api/'
+      });
+    }
+  }
   title = 'ngx-dhis2-period-filter';
   periodObject: any;
   action: string;

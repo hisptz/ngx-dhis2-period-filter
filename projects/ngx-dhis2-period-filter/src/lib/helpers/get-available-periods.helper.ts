@@ -3,9 +3,9 @@ import { getPeriodsBasedOnType } from './get-periods-based-on-type.helper';
 export function getAvailablePeriods(
   selectedPeriodType: string,
   year: number,
-  selectedPeriods: any[]
+  selectedPeriods: any[],
+  periods = []
 ) {
-  const periods = getPeriodsBasedOnType(selectedPeriodType, year);
   // remove selected periods
   return (periods || []).filter(
     (period: any) =>
