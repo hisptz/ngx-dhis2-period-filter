@@ -30,6 +30,8 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     emitOnSelection: false,
     singleSelection: false
   };
+  @Input()
+  calendar: string;
 
   @Output() update = new EventEmitter();
   @Output() close = new EventEmitter();
@@ -45,6 +47,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     this.periodInstance = new Fn.Period();
 
     this.periodTypes = periodTypeInstance.get();
+    this.calendar = 'ethiopian';
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -76,7 +79,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
 
     this.periodInstance
       .setType(this.selectedPeriodType)
-      .setCalendar('ethiopian')
+      .setCalendar(this.calendar)
       .get();
 
     this.selectedYear = this.currentYear = this.periodInstance.currentYear();

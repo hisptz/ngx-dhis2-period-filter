@@ -18,6 +18,7 @@
 
 .period-header {
   display: flex;
+  width: 100%;
 }
 
 .period-top-section,
@@ -25,24 +26,25 @@
   padding-bottom: 0.2em;
 }
 
-.period-available-header {
-  flex: 1;
-  display: flex;
-  justify-content: space-between;
-  border: solid 1px #dddddd;
-  padding: 5px;
+.period-available-header,
+.period-selected-header {
+  width: 400px;
+  padding: 0.5em;
   font-size: 13px;
 }
 
+.period-available-header {
+  display: flex;
+  justify-content: space-between;
+  border: solid 1px #dddddd;
+}
+
 .period-selected-header {
-  flex: 1;
   display: flex;
   justify-content: space-between;
   border-top: solid 1px #dddddd;
   border-bottom: solid 1px #dddddd;
   border-right: solid 1px #dddddd;
-  padding: 5px;
-  font-size: 13px;
 }
 
 .period-badge {
@@ -53,6 +55,7 @@
 }
 .period-body {
   display: flex;
+  width: 100%;
   border-left: solid 1px #dddddd;
   border-right: solid 1px #dddddd;
   border-bottom: solid 1px #dddddd;
@@ -60,10 +63,10 @@
 
 .period-available-body,
 .period-selected-body {
-  flex: 1;
-  padding: 0.2em;
+  padding: 0.5em;
   height: 270px;
   overflow: auto;
+  width: 400px;
 }
 
 .period-available-body {
