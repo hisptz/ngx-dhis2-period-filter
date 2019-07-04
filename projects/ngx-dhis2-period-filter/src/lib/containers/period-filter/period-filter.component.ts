@@ -64,7 +64,10 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private _setPeriodProperties(selectedPeriodType) {
-    this.selectedPeriods = getSanitizedPeriods(this.selectedPeriods);
+    this.selectedPeriods = getSanitizedPeriods(
+      this.selectedPeriods,
+      this.calendar
+    );
 
     this.periodFilterConfig = {
       ...periodFilterConfig,

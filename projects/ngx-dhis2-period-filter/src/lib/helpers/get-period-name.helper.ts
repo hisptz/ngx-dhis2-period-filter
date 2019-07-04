@@ -1,9 +1,15 @@
-import { getPeriodsBasedOnType } from './get-periods-based-on-type.helper';
+import { Fn } from '@iapps/function-analytics';
 
-export function getPeriodName(id: string, type: string): string {
+export function getPeriodName(
+  id: string,
+  type: string,
+  calendar: string
+): string {
   if (!id) {
     return undefined;
   }
+
+  const periodInstance = new Fn.Period();
 
   switch (type) {
     case 'RelativeMonth':
@@ -12,7 +18,11 @@ export function getPeriodName(id: string, type: string): string {
     case 'RelativeWeek':
     case 'RelativeBiMonth':
     case 'RelativeFinancialYear': {
-      const period = (getPeriodsBasedOnType(type, undefined) || []).find(
+      periodInstance
+        .setType(type)
+        .setCalendar(calendar)
+        .get();
+      const period = (periodInstance.list() || []).find(
         (periodItem: any) => periodItem.id === id
       );
 
@@ -20,9 +30,14 @@ export function getPeriodName(id: string, type: string): string {
     }
 
     default: {
-      const period = (
-        getPeriodsBasedOnType(type, parseInt(id.slice(0, 4), 10)) || []
-      ).find((periodItem: any) => periodItem.id === id);
+      periodInstance
+        .setType(type)
+        .setYear(parseInt(id.slice(0, 4), 10))
+        .setCalendar(calendar)
+        .get();
+      const period = (periodInstance.list() || []).find(
+        (periodItem: any) => periodItem.id === id
+      );
 
       return period ? period.name : id;
     }

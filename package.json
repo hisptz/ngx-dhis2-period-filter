@@ -25,6 +25,7 @@
     "@angular/platform-browser-dynamic": "~8.1.0-next.3",
     "@angular/router": "~8.1.0-next.3",
     "@iapps/function-analytics": "^1.0.0-beta.13",
+    "@iapps/ngx-dhis2-period-filter": "file:dist/ngx-dhis2-period-filter/iapps-ngx-dhis2-period-filter-1.0.0-beta.10.tgz",
     "bootstrap": "^4.3.1",
     "core-js": "^3.0.1",
     "font-awesome": "^4.7.0",
