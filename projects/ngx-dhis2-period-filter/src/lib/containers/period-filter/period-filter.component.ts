@@ -1,22 +1,23 @@
 import {
   Component,
-  OnInit,
-  OnChanges,
-  Input,
-  Output,
   EventEmitter,
-  SimpleChanges,
-  OnDestroy
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges
 } from '@angular/core';
-import { PERIOD_TYPES } from '../../constants/period-types.constant';
-import { getPeriodType } from '../../helpers/get-period-type.helper';
-import { getAvailablePeriods } from '../../helpers/get-available-periods.helper';
-import { removePeriodFromList } from '../../helpers/remove-period-from-list.helper';
-import { addPeriodToList } from '../../helpers/add-period-to-list.helper';
-import { getSanitizedPeriods } from '../../helpers/get-sanitized-periods.helper';
 import { Fn } from '@iapps/function-analytics';
-import { PeriodFilterConfig } from '../../models/period-filter-config.model';
+import { find } from 'lodash';
+
 import { periodFilterConfig } from '../../constants/period-filter-config.constant';
+import { addPeriodToList } from '../../helpers/add-period-to-list.helper';
+import { getAvailablePeriods } from '../../helpers/get-available-periods.helper';
+import { getPeriodType } from '../../helpers/get-period-type.helper';
+import { getSanitizedPeriods } from '../../helpers/get-sanitized-periods.helper';
+import { removePeriodFromList } from '../../helpers/remove-period-from-list.helper';
+import { PeriodFilterConfig } from '../../models/period-filter-config.model';
 
 @Component({
   selector: 'ngx-dhis2-period-filter',
@@ -24,13 +25,14 @@ import { periodFilterConfig } from '../../constants/period-filter-config.constan
   styleUrls: ['./period-filter.component.css']
 })
 export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() selectedPeriodType;
+  @Input() selectedPeriodType: string;
   @Input() selectedPeriods: any[];
   @Input()
   periodFilterConfig: PeriodFilterConfig;
   @Input()
   calendar: string;
-
+  @Input()
+  lowestPeriodType: string;
   @Output() update = new EventEmitter();
   @Output() close = new EventEmitter();
   @Output() change = new EventEmitter();
@@ -55,6 +57,18 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
+    if (this.lowestPeriodType) {
+      const lowestPeriodType = find(this.periodTypes, [
+        'id',
+        this.lowestPeriodType
+      ]);
+      if (lowestPeriodType) {
+        this.periodTypes = this.periodTypes.filter(
+          (periodType: any) => periodType.rank >= lowestPeriodType.rank
+        );
+      }
+    }
+
     // Initialize selected periods if not defined
     if (!this.selectedPeriods) {
       this.selectedPeriods = [];
@@ -202,6 +216,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     return {
       items: this.selectedPeriods,
       dimension: 'pe',
+      lowestPeriodType: this.lowestPeriodType,
       changed: true
     };
   }

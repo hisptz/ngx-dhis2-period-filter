@@ -26,7 +26,7 @@
           <ngx-dhis2-period-filter
             [selectedPeriods]="selectedPeriodItems"
             [periodFilterConfig]="periodFilterConfig"
-            [calendar]="'ethiopian'"
+            [lowestPeriodType]="'Monthly'"
             (update)="onPeriodUpdate($event, 'UPDATE')"
             (change)="onPeriodUpdate($event, 'CHANGE')"
             (close)="onPeriodUpdate($event, 'CLOSE')"
