@@ -1,47 +1,53 @@
 import {
   Component,
-  OnInit,
-  OnChanges,
-  Input,
-  Output,
   EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
   SimpleChanges
 } from '@angular/core';
-import { PERIOD_TYPES } from '../../constants/period-types.constant';
-import { getPeriodType } from '../../helpers /get-period-type.helper';
-import { getAvailablePeriods } from '../../helpers /get-available-periods.helper';
-import { removePeriodFromList } from '../../helpers /remove-period-from-list.helper';
-import { addPeriodToList } from '../../helpers /add-period-to-list.helper';
-import { getSanitizedPeriods } from '../../helpers /get-sanitized-periods.helper';
+import { Fn } from '@iapps/function-analytics';
+import { find } from 'lodash';
+
+import { periodFilterConfig } from '../../constants/period-filter-config.constant';
+import { addPeriodToList } from '../../helpers/add-period-to-list.helper';
+import { getAvailablePeriods } from '../../helpers/get-available-periods.helper';
+import { getPeriodType } from '../../helpers/get-period-type.helper';
+import { getSanitizedPeriods } from '../../helpers/get-sanitized-periods.helper';
+import { removePeriodFromList } from '../../helpers/remove-period-from-list.helper';
+import { PeriodFilterConfig } from '../../models/period-filter-config.model';
 
 @Component({
   selector: 'ngx-dhis2-period-filter',
   templateUrl: './period-filter.component.html',
   styleUrls: ['./period-filter.component.css']
 })
-export class PeriodFilterComponent implements OnInit, OnChanges {
-  @Input() selectedPeriodType;
+export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() selectedPeriodType: string;
   @Input() selectedPeriods: any[];
   @Input()
-  periodFilterConfig: any = {
-    resetOnPeriodTypeChange: false,
-    emitOnSelection: false,
-    singleSelection: false
-  };
-
+  periodFilterConfig: PeriodFilterConfig;
+  @Input()
+  calendar: string;
+  @Input()
+  lowestPeriodType: string;
   @Output() update = new EventEmitter();
   @Output() close = new EventEmitter();
+  @Output() change = new EventEmitter();
 
   availablePeriods: any[];
   selectedYear: number;
   currentYear: number;
   periodTypes: any[];
+  periodInstance: any;
 
   constructor() {
-    const date = new Date();
-    this.selectedYear = date.getFullYear();
-    this.currentYear = date.getFullYear();
-    this.periodTypes = PERIOD_TYPES;
+    const periodTypeInstance = new Fn.PeriodType();
+    this.periodInstance = new Fn.Period();
+
+    this.periodTypes = periodTypeInstance.get();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -51,6 +57,18 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    if (this.lowestPeriodType) {
+      const lowestPeriodType = find(this.periodTypes, [
+        'id',
+        this.lowestPeriodType
+      ]);
+      if (lowestPeriodType) {
+        this.periodTypes = this.periodTypes.filter(
+          (periodType: any) => periodType.rank >= lowestPeriodType.rank
+        );
+      }
+    }
+
     // Initialize selected periods if not defined
     if (!this.selectedPeriods) {
       this.selectedPeriods = [];
@@ -60,7 +78,15 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
   }
 
   private _setPeriodProperties(selectedPeriodType) {
-    this.selectedPeriods = getSanitizedPeriods(this.selectedPeriods);
+    this.selectedPeriods = getSanitizedPeriods(
+      this.selectedPeriods,
+      this.calendar
+    );
+
+    this.periodFilterConfig = {
+      ...periodFilterConfig,
+      ...(this.periodFilterConfig || {})
+    };
 
     // Get selected period type if not supplied
     if (!selectedPeriodType) {
@@ -70,6 +96,13 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
         this.selectedPeriodType = 'Monthly';
       }
     }
+
+    this.periodInstance
+      .setType(this.selectedPeriodType)
+      .setCalendar(this.calendar)
+      .get();
+
+    this.selectedYear = this.currentYear = this.periodInstance.currentYear();
 
     this._setAvailablePeriods(this.selectedPeriodType);
   }
@@ -86,6 +119,10 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
 
     // Remove selected period to available bucket
     this.availablePeriods = removePeriodFromList(this.availablePeriods, period);
+
+    if (this.periodFilterConfig.emitOnSelection) {
+      this._onUpdatePeriod(false);
+    }
   }
 
   onDeselectPeriod(period: any, e) {
@@ -99,27 +136,33 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
       ...period,
       type: period.type || getPeriodType([period])
     });
+
+    if (this.periodFilterConfig.emitOnSelection) {
+      this._onUpdatePeriod(false);
+    }
   }
 
-  updatePeriodType(periodType: string, e) {
-    e.stopPropagation();
-
+  updatePeriodType() {
     if (this.periodFilterConfig.resetOnPeriodTypeChange) {
       this.selectedPeriods = [];
     }
 
-    this._setAvailablePeriods(periodType);
+    this.periodInstance.setType(this.selectedPeriodType).get();
+
+    this._setAvailablePeriods(this.selectedPeriodType);
   }
 
   pushPeriodBackward(e) {
     e.stopPropagation();
     this.selectedYear--;
+    this.periodInstance.setYear(this.selectedYear).get();
     this._setAvailablePeriods(this.selectedPeriodType);
   }
 
   pushPeriodForward(e) {
     e.stopPropagation();
     this.selectedYear++;
+    this.periodInstance.setYear(this.selectedYear).get();
     this._setAvailablePeriods(this.selectedPeriodType);
   }
 
@@ -127,13 +170,13 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
     e.stopPropagation();
 
     // Add all period to selected bucket
-    this.selectedPeriods = this.availablePeriods;
+    this.selectedPeriods = [...this.availablePeriods, ...this.selectedPeriods];
 
     // remove all periods from available
     this.availablePeriods = [];
 
     if (this.periodFilterConfig.emitOnSelection) {
-      this._onUpdatePeriod();
+      this._onUpdatePeriod(false);
     }
   }
 
@@ -146,11 +189,12 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
     this.availablePeriods = getAvailablePeriods(
       this.selectedPeriodType,
       this.selectedYear,
-      []
+      [],
+      this.periodInstance.list()
     );
 
     if (this.periodFilterConfig.emitOnSelection) {
-      this._onUpdatePeriod();
+      this._onUpdatePeriod(false);
     }
   }
 
@@ -164,23 +208,33 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
     this.close.emit(this._getPeriodSelection());
   }
 
+  ngOnDestroy() {
+    this.close.emit(this._getPeriodSelection());
+  }
+
   private _getPeriodSelection() {
     return {
       items: this.selectedPeriods,
       dimension: 'pe',
+      lowestPeriodType: this.lowestPeriodType,
       changed: true
     };
   }
 
-  private _onUpdatePeriod() {
-    this.update.emit(this._getPeriodSelection());
+  private _onUpdatePeriod(isUpdate: boolean = true) {
+    if (isUpdate) {
+      this.update.emit(this._getPeriodSelection());
+    } else {
+      this.change.emit(this._getPeriodSelection());
+    }
   }
 
   private _setAvailablePeriods(periodType: string) {
     this.availablePeriods = getAvailablePeriods(
       periodType,
       this.selectedYear,
-      this.selectedPeriods
+      this.selectedPeriods,
+      this.periodInstance.list()
     );
   }
 }
