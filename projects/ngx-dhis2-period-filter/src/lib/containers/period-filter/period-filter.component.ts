@@ -152,16 +152,15 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     this._setAvailablePeriods();
   }
 
-  pushPeriodBackward(e) {
+  pushPeriod(e, direction: string) {
     e.stopPropagation();
-    this.selectedYear--;
-    this.periodInstance.setYear(this.selectedYear).get();
-    this._setAvailablePeriods();
-  }
 
-  pushPeriodForward(e) {
-    e.stopPropagation();
-    this.selectedYear++;
+    if (direction === 'NEXT') {
+      this.selectedYear++;
+    } else {
+      this.selectedYear--;
+    }
+
     this.periodInstance.setYear(this.selectedYear).get();
     this._setAvailablePeriods();
   }

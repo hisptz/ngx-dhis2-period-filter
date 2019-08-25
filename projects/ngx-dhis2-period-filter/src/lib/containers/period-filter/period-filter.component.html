@@ -4,36 +4,18 @@
     <div class="col-8">
       <mat-form-field>
         <mat-label>Period type</mat-label>
-        <mat-select
-          [(ngModel)]="selectedPeriodType"
-          (ngModelChange)="updatePeriodType()"
-          name="periodType"
-        >
-          <mat-option
-            *ngFor="let periodType of periodTypes"
-            [value]="periodType.id"
-            >{{ periodType.name }}</mat-option
-          >
+        <mat-select [(ngModel)]="selectedPeriodType" (ngModelChange)="updatePeriodType()" name="periodType">
+          <mat-option *ngFor="let periodType of periodTypes" [value]="periodType.id">{{ periodType.name }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
     <div class="col-4">
       <div class="btn-group float-right">
-        <button
-          type="button"
-          mat-stroked-button
-          class="ml-2 period-btn"
-          (click)="pushPeriodBackward($event)"
-        >
+        <button type="button" mat-stroked-button class="ml-2 period-btn" (click)="pushPeriod($event, 'PREV')">
           Prev Year
         </button>
-        <button
-          type="button"
-          mat-stroked-button
-          class="ml-2 period-btn"
-          (click)="pushPeriodForward($event)"
-          [disabled]="selectedYear === currentYear"
-        >
+        <button type="button" mat-stroked-button class="ml-2 period-btn" (click)="pushPeriod($event, 'NEXT')"
+          [disabled]="selectedYear === currentYear">
           Next Year
         </button>
       </div>
@@ -44,32 +26,19 @@
   <!--period available and selected section-->
   <div class="period-header">
     <div class="period-available-header">
-      <span
-        [title]="availablePeriods.length + ' Available for selection'"
-        class="badge badge-secondary period-badge"
-        >{{ availablePeriods.length }} Available</span
-      >
-      <button
-        matTooltip="Select all periods"
-        mat-icon-button
-        class="period-btn"
-        (click)="onSelectAllPeriods($event)"
-      >
+      <span [title]="availablePeriods.length + ' Available for selection'"
+        class="badge badge-secondary period-badge">{{ availablePeriods.length }} Available</span>
+      <button matTooltip="Select all periods" mat-icon-button class="period-btn" (click)="onSelectAllPeriods($event)">
         <i class="fa fa-arrow-right"></i>
       </button>
     </div>
     <div class="period-selected-header">
-      <button
-        matTooltip="Unselect all periods"
-        mat-icon-button
-        class="period-btn"
-        (click)="onDeselectAllPeriods($event)"
-      >
+      <button matTooltip="Unselect all periods" mat-icon-button class="period-btn"
+        (click)="onDeselectAllPeriods($event)">
         <i class="fa fa-arrow-left"></i>
       </button>
       <span class="badge badge-primary period-badge">
-        {{ selectedPeriods.length }} Selected</span
-      >
+        {{ selectedPeriods.length }} Selected</span>
     </div>
   </div>
   <!--end of period available and selected section-->
@@ -78,10 +47,7 @@
   <div class="period-body">
     <div class="period-available-body">
       <ul class="period-list">
-        <li
-          *ngFor="let availablePeriod of availablePeriods"
-          matTooltip="Select {{ availablePeriod.name }}"
-        >
+        <li *ngFor="let availablePeriod of availablePeriods" matTooltip="Select {{ availablePeriod.name }}">
           <a (click)="onSelectPeriod(availablePeriod, $event)">
             {{ availablePeriod.name }}
           </a>
@@ -90,13 +56,9 @@
     </div>
     <div class="period-selected-body">
       <ul class="period-list">
-        <li
-          *ngFor="let selectedPeriod of selectedPeriods"
-          matTooltip="Remove {{ selectedPeriod.name }}"
-        >
+        <li *ngFor="let selectedPeriod of selectedPeriods" matTooltip="Remove {{ selectedPeriod.name }}">
           <a (click)="onDeselectPeriod(selectedPeriod, $event)">
-            <span class="badge badge-info">{{ selectedPeriod.type }}</span
-            >&nbsp;
+            <span class="badge badge-info">{{ selectedPeriod.type }}</span>&nbsp;
             <span>{{ selectedPeriod.name }}</span>
           </a>
         </li>
@@ -111,13 +73,8 @@
       <button mat-stroked-button (click)="onClose($event)">
         Close
       </button>
-      <button
-        mat-stroked-button
-        color="primary"
-        class="ml-2"
-        [disabled]="selectedPeriods.length === 0"
-        (click)="onUpdate($event)"
-      >
+      <button mat-stroked-button color="primary" class="ml-2" [disabled]="selectedPeriods.length === 0"
+        (click)="onUpdate($event)">
         Update
       </button>
     </div>
