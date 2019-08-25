@@ -104,7 +104,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
 
     this.selectedYear = this.currentYear = this.periodInstance.currentYear();
 
-    this._setAvailablePeriods(this.selectedPeriodType);
+    this._setAvailablePeriods();
   }
 
   onSelectPeriod(period, e) {
@@ -149,21 +149,20 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
 
     this.periodInstance.setType(this.selectedPeriodType).get();
 
-    this._setAvailablePeriods(this.selectedPeriodType);
+    this._setAvailablePeriods();
   }
 
-  pushPeriodBackward(e) {
+  pushPeriod(e, direction: string) {
     e.stopPropagation();
-    this.selectedYear--;
-    this.periodInstance.setYear(this.selectedYear).get();
-    this._setAvailablePeriods(this.selectedPeriodType);
-  }
 
-  pushPeriodForward(e) {
-    e.stopPropagation();
-    this.selectedYear++;
+    if (direction === 'NEXT') {
+      this.selectedYear++;
+    } else {
+      this.selectedYear--;
+    }
+
     this.periodInstance.setYear(this.selectedYear).get();
-    this._setAvailablePeriods(this.selectedPeriodType);
+    this._setAvailablePeriods();
   }
 
   onSelectAllPeriods(e) {
@@ -186,12 +185,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     this.selectedPeriods = [];
 
     // add to available period bucket
-    this.availablePeriods = getAvailablePeriods(
-      this.selectedPeriodType,
-      this.selectedYear,
-      [],
-      this.periodInstance.list()
-    );
+    this.availablePeriods = getAvailablePeriods([], this.periodInstance.list());
 
     if (this.periodFilterConfig.emitOnSelection) {
       this._onUpdatePeriod(false);
@@ -229,10 +223,8 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  private _setAvailablePeriods(periodType: string) {
+  private _setAvailablePeriods() {
     this.availablePeriods = getAvailablePeriods(
-      periodType,
-      this.selectedYear,
       this.selectedPeriods,
       this.periodInstance.list()
     );
