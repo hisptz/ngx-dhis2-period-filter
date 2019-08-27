@@ -29,13 +29,13 @@
       <span [title]="availablePeriods.length + ' Available for selection'"
         class="badge badge-secondary period-badge">{{ availablePeriods.length }} Available</span>
       <button matTooltip="Select all periods" mat-icon-button class="period-btn" (click)="onSelectAllPeriods($event)">
-        <i class="fa fa-arrow-right"></i>
+        <mat-icon>arrow_forward</mat-icon>
       </button>
     </div>
     <div class="period-selected-header">
       <button matTooltip="Unselect all periods" mat-icon-button class="period-btn"
         (click)="onDeselectAllPeriods($event)">
-        <i class="fa fa-arrow-left"></i>
+        <mat-icon>arrow_backward</mat-icon>
       </button>
       <span class="badge badge-primary period-badge">
         {{ selectedPeriods.length }} Selected</span>
@@ -47,7 +47,8 @@
   <div class="period-body">
     <div class="period-available-body">
       <ul class="period-list">
-        <li *ngFor="let availablePeriod of availablePeriods" matTooltip="Select {{ availablePeriod.name }}">
+        <li *ngFor="let availablePeriod of availablePeriods"
+          matTooltip="Select {{ availablePeriod.name }} ({{availablePeriod.type}} period)">
           <a (click)="onSelectPeriod(availablePeriod, $event)">
             {{ availablePeriod.name }}
           </a>
@@ -56,9 +57,10 @@
     </div>
     <div class="period-selected-body">
       <ul class="period-list">
-        <li *ngFor="let selectedPeriod of selectedPeriods" matTooltip="Remove {{ selectedPeriod.name }}">
+        <li *ngFor="let selectedPeriod of selectedPeriods"
+          matTooltip="Remove {{ selectedPeriod.name }} ({{selectedPeriod.type}} period)">
           <a (click)="onDeselectPeriod(selectedPeriod, $event)">
-            <span class="badge badge-info">{{ selectedPeriod.type }}</span>&nbsp;
+            <span class="badge badge-info period-item-badge">{{ selectedPeriod.type }}</span>&nbsp;
             <span>{{ selectedPeriod.name }}</span>
           </a>
         </li>

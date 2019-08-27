@@ -80,6 +80,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
   private _setPeriodProperties(selectedPeriodType) {
     this.selectedPeriods = getSanitizedPeriods(
       this.selectedPeriods,
+      this.periodFilterConfig,
       this.calendar
     );
 
@@ -100,6 +101,10 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     this.periodInstance
       .setType(this.selectedPeriodType)
       .setCalendar(this.calendar)
+      .setPreferences({
+        childrenPeriodSortOrder:
+          this.periodFilterConfig.childrenPeriodSortOrder || 'DESC'
+      })
       .get();
 
     this.selectedYear = this.currentYear = this.periodInstance.currentYear();
