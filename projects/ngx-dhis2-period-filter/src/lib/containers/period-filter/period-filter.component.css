@@ -50,8 +50,15 @@
 .period-badge {
   display: flex;
   align-items: center;
+  font-weight: lighter !important;
+  border-radius: 2px;
   font-size: 12px;
   height: 22px;
+}
+
+.period-item-badge {
+  font-weight: lighter;
+  border-radius: 2px;
 }
 .period-body {
   display: flex;
