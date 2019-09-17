@@ -18,6 +18,10 @@ import { getPeriodType } from '../../helpers/get-period-type.helper';
 import { getSanitizedPeriods } from '../../helpers/get-sanitized-periods.helper';
 import { removePeriodFromList } from '../../helpers/remove-period-from-list.helper';
 import { PeriodFilterConfig } from '../../models/period-filter-config.model';
+import {
+  NgxDhis2HttpClientService,
+  SystemInfo
+} from '@iapps/ngx-dhis2-http-client';
 
 @Component({
   selector: 'ngx-dhis2-period-filter',
@@ -43,7 +47,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
   periodTypes: any[];
   periodInstance: any;
 
-  constructor() {
+  constructor(private httpClient: NgxDhis2HttpClientService) {
     const periodTypeInstance = new Fn.PeriodType();
     this.periodInstance = new Fn.Period();
 
@@ -78,38 +82,40 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private _setPeriodProperties(selectedPeriodType) {
-    this.selectedPeriods = getSanitizedPeriods(
-      this.selectedPeriods,
-      this.periodFilterConfig,
-      this.calendar
-    );
+    this.httpClient.systemInfo().subscribe((systemInfo: SystemInfo) => {
+      this.selectedPeriods = getSanitizedPeriods(
+        this.selectedPeriods,
+        this.periodFilterConfig,
+        systemInfo.keyCalendar
+      );
 
-    this.periodFilterConfig = {
-      ...periodFilterConfig,
-      ...(this.periodFilterConfig || {})
-    };
+      this.periodFilterConfig = {
+        ...periodFilterConfig,
+        ...(this.periodFilterConfig || {})
+      };
 
-    // Get selected period type if not supplied
-    if (!selectedPeriodType) {
-      if (this.selectedPeriods[0]) {
-        this.selectedPeriodType = this.selectedPeriods[0].type || 'Monthly';
-      } else {
-        this.selectedPeriodType = 'Monthly';
+      // Get selected period type if not supplied
+      if (!selectedPeriodType) {
+        if (this.selectedPeriods[0]) {
+          this.selectedPeriodType = this.selectedPeriods[0].type || 'Monthly';
+        } else {
+          this.selectedPeriodType = 'Monthly';
+        }
       }
-    }
 
-    this.periodInstance
-      .setType(this.selectedPeriodType)
-      .setCalendar(this.calendar)
-      .setPreferences({
-        childrenPeriodSortOrder:
-          this.periodFilterConfig.childrenPeriodSortOrder || 'DESC'
-      })
-      .get();
+      this.periodInstance
+        .setType(this.selectedPeriodType)
+        .setCalendar(systemInfo.keyCalendar)
+        .setPreferences({
+          childrenPeriodSortOrder:
+            this.periodFilterConfig.childrenPeriodSortOrder || 'DESC'
+        })
+        .get();
 
-    this.selectedYear = this.currentYear = this.periodInstance.currentYear();
+      this.selectedYear = this.currentYear = this.periodInstance.currentYear();
 
-    this._setAvailablePeriods();
+      this._setAvailablePeriods();
+    });
   }
 
   onSelectPeriod(period, e) {

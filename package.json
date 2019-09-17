@@ -25,6 +25,7 @@
     "@angular/platform-browser-dynamic": "~9.0.0-next.2",
     "@angular/router": "~9.0.0-next.2",
     "@iapps/function-analytics": "^1.0.0-beta.19",
+    "@iapps/ngx-dhis2-http-client": "^2.0.8-beta.3",
     "bootstrap": "^4.3.1",
     "core-js": "^3.2.1",
     "font-awesome": "^4.7.0",
