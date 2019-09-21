@@ -58,7 +58,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-dhis2-period-filter-module:build"
+            "browserTarget": "ngx-dhis2-period-filter-module:build",
+            "proxyConfig": "proxy-config.json"
           },
           "configurations": {
             "production": {
