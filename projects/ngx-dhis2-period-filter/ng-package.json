@@ -5,7 +5,8 @@
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {
       "lodash": "_",
-      "@iapps/function-analytics": "@iapps/function-analytics"
+      "@iapps/function-analytics": "@iapps/function-analytics",
+      "@iapps/ngx-dhis2-http-client": "@iapps/ngx-dhis2-http-client"
     }
   },
   "whitelistedNonPeerDependencies": ["."]
