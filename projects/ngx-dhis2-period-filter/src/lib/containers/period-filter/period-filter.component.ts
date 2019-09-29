@@ -46,6 +46,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
   currentYear: number;
   periodTypes: any[];
   periodInstance: any;
+  showPeriodTypeSelection: boolean;
 
   constructor(private httpClient: NgxDhis2HttpClientService) {
     const periodTypeInstance = new Fn.PeriodType();
@@ -153,10 +154,15 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  updatePeriodType() {
+  onUpdatePeriodType(e, selectedPeriodType: string) {
+    e.stopPropagation();
     if (this.periodFilterConfig.resetOnPeriodTypeChange) {
       this.selectedPeriods = [];
     }
+
+    this.showPeriodTypeSelection = false;
+
+    this.selectedPeriodType = selectedPeriodType;
 
     this.periodInstance.setType(this.selectedPeriodType).get();
 
@@ -211,6 +217,11 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
   onClose(e) {
     e.stopPropagation();
     this.close.emit(this._getPeriodSelection());
+  }
+
+  onTogglePeriodTypeSelection(e) {
+    e.stopPropagation();
+    this.showPeriodTypeSelection = !this.showPeriodTypeSelection;
   }
 
   ngOnDestroy() {
