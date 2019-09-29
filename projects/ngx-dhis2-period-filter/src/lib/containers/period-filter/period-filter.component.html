@@ -2,12 +2,16 @@
   <!--period type and year selection block-->
   <div class="row">
     <div class="col-8">
-      <mat-form-field>
-        <mat-label>Period type</mat-label>
-        <mat-select [(ngModel)]="selectedPeriodType" (ngModelChange)="updatePeriodType()" name="periodType">
-          <mat-option *ngFor="let periodType of periodTypes" [value]="periodType.id">{{ periodType.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <button mat-stroked-button
+        (click)="onTogglePeriodTypeSelection($event)">{{ selectedPeriodType || 'Period Type'}}</button>
+      <mat-card class="period-type-container" *ngIf="showPeriodTypeSelection">
+        <ul class="period-type-list">
+          <li *ngFor="let periodType of periodTypes"><a
+              [ngClass]="{'selected-period-type': selectedPeriodType === periodType.id}"
+              (click)="onUpdatePeriodType($event, periodType.id)">{{ periodType.name }}</a>
+          </li>
+        </ul>
+      </mat-card>
     </div>
     <div class="col-4">
       <div class="btn-group float-right">
@@ -24,7 +28,7 @@
   <!--end of period type and year selection block-->
 
   <!--period available and selected section-->
-  <div class="period-header">
+  <div class="period-header mt-2">
     <div class="period-available-header">
       <span [title]="availablePeriods.length + ' Available for selection'"
         class="badge badge-secondary period-badge">{{ availablePeriods.length }} Available</span>
