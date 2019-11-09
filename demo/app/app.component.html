@@ -24,6 +24,7 @@
       <div class="card">
         <div class="card-body" style="padding: 5px;">
           <ngx-dhis2-period-filter
+            [disablePeriodSelection]="false"
             [selectedPeriods]="selectedPeriodItems"
             [periodFilterConfig]="periodFilterConfig"
             [lowestPeriodType]="'Monthly'"

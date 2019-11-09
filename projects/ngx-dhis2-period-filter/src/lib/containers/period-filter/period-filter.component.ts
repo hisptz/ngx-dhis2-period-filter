@@ -31,6 +31,7 @@ import {
 export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selectedPeriodType: string;
   @Input() selectedPeriods: any[];
+  @Input() disablePeriodSelection: boolean;
   @Input()
   periodFilterConfig: PeriodFilterConfig;
   @Input()
