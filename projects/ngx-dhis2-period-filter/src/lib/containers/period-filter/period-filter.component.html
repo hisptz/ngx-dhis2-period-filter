@@ -5,7 +5,7 @@
       <tr>
         <td class="p-1">
           <div class="d-flex justify-content-between">
-            <button mat-stroked-button class="pr-1" (click)="onTogglePeriodTypeSelection($event)"
+            <button mat-stroked-button class="pr-1 period-btn" (click)="onTogglePeriodTypeSelection($event)"
               [disabled]="periodFilterConfig.disablePeriodTypeSelection">
               {{ selectedPeriodType || 'Period Type'}}
               <mat-icon>arrow_drop_down</mat-icon>
