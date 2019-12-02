@@ -3,4 +3,5 @@ export interface PeriodFilterConfig {
   emitOnSelection?: boolean;
   singleSelection?: boolean;
   childrenPeriodSortOrder?: string;
+  disablePeriodTypeSelection?: boolean;
 }

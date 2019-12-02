@@ -12,40 +12,35 @@
         <div class="card-body">
           <div>
             <code>CONFIG: {{ periodFilterConfig | json }}</code>
-          </div>
-          <div>
-            <code>SELECTED ITEMS: {{ selectedPeriodItems | json }}</code>
-          </div>
-        </div>
-      </code>
     </div>
-    <div class="col-md-4">
-      <b>PERIOD FILTER</b>
-      <div class="card">
-        <div class="card-body" style="padding: 5px;">
-          <ngx-dhis2-period-filter
-            [selectedPeriods]="selectedPeriodItems"
-            [periodFilterConfig]="periodFilterConfig"
-            [lowestPeriodType]="'Monthly'"
-            (update)="onPeriodUpdate($event, 'UPDATE')"
-            (change)="onPeriodUpdate($event, 'CHANGE')"
-            (close)="onPeriodUpdate($event, 'CLOSE')"
-          ></ngx-dhis2-period-filter>
-        </div>
-      </div>
+    <div>
+      <code>SELECTED ITEMS: {{ selectedPeriodItems | json }}</code>
     </div>
-    <div class="col-md-4">
-      <b>OUTPUT</b>
-      <code class="card" style="height: 390px; overflow: auto;">
+  </div>
+  </code>
+</div>
+<div class="col-md-4">
+  <b>PERIOD FILTER</b>
+  <div class="card">
+    <div class="card-body" style="padding: 5px;">
+      <ngx-dhis2-period-filter [selectedPeriods]="selectedPeriodItems" [periodFilterConfig]="periodFilterConfig"
+        [selectedPeriodType]="'BiMonthly'" (update)="onPeriodUpdate($event, 'UPDATE')"
+        (change)="onPeriodUpdate($event, 'CHANGE')" (close)="onPeriodUpdate($event, 'CLOSE')"></ngx-dhis2-period-filter>
+    </div>
+  </div>
+</div>
+<div class="col-md-4">
+  <b>OUTPUT</b>
+  <code class="card" style="height: 390px; overflow: auto;">
         <div class="card-body">
           <div>
             <code>ACTION: {{ action }}</code>
-          </div>
-          <div>
-            <code>PAYLOAD: {{ periodObject | json }}</code>
-          </div>
-        </div>
-      </code>
-    </div>
-  </div>
+</div>
+<div>
+  <code>PAYLOAD: {{ periodObject | json }}</code>
+</div>
+</div>
+</code>
+</div>
+</div>
 </div>

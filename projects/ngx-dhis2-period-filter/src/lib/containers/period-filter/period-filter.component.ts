@@ -109,7 +109,8 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
         .setCalendar(systemInfo.keyCalendar)
         .setPreferences({
           childrenPeriodSortOrder:
-            this.periodFilterConfig.childrenPeriodSortOrder || 'DESC'
+            this.periodFilterConfig.childrenPeriodSortOrder || 'DESC',
+          allowFuturePeriods: true
         })
         .get();
 
