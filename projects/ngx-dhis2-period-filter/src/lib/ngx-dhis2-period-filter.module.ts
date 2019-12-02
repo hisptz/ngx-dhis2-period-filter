@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [PeriodFilterComponent],
@@ -19,7 +20,8 @@ import { MatCardModule } from '@angular/material/card';
     MatFormFieldModule,
     MatTooltipModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
+    MatChipsModule
   ],
   exports: [PeriodFilterComponent]
 })

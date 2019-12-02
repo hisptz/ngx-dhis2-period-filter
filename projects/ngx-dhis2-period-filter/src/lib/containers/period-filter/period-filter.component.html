@@ -1,75 +1,81 @@
 <div class="period-filter-container">
-  <!--period type and year selection block-->
-  <div class="row">
-    <div class="col-8">
-      <button mat-stroked-button
-        (click)="onTogglePeriodTypeSelection($event)">{{ selectedPeriodType || 'Period Type'}}</button>
-      <mat-card class="period-type-container" *ngIf="showPeriodTypeSelection">
-        <ul class="period-type-list">
-          <li *ngFor="let periodType of periodTypes"><a
-              [ngClass]="{'selected-period-type': selectedPeriodType === periodType.id}"
-              (click)="onUpdatePeriodType($event, periodType.id)">{{ periodType.name }}</a>
-          </li>
-        </ul>
-      </mat-card>
-    </div>
-    <div class="col-4">
-      <div class="btn-group float-right">
-        <button type="button" mat-stroked-button class="ml-2 period-btn" (click)="pushPeriod($event, 'PREV')">
-          Prev Year
-        </button>
-        <button type="button" mat-stroked-button class="ml-2 period-btn" (click)="pushPeriod($event, 'NEXT')"
-          [disabled]="selectedYear === currentYear">
-          Next Year
-        </button>
-      </div>
-    </div>
-  </div>
-  <!--end of period type and year selection block-->
-
-  <!--period available and selected section-->
-  <div class="period-header mt-2">
-    <div class="period-available-header">
-      <span [title]="availablePeriods.length + ' Available for selection'"
-        class="badge badge-secondary period-badge">{{ availablePeriods.length }} Available</span>
-      <button matTooltip="Select all periods" mat-icon-button class="period-btn" (click)="onSelectAllPeriods($event)">
-        <mat-icon>arrow_forward</mat-icon>
-      </button>
-    </div>
-    <div class="period-selected-header">
-      <button matTooltip="Unselect all periods" mat-icon-button class="period-btn"
-        (click)="onDeselectAllPeriods($event)">
-        <mat-icon>arrow_backward</mat-icon>
-      </button>
-      <span class="badge badge-primary period-badge">
-        {{ selectedPeriods.length }} Selected</span>
-    </div>
-  </div>
-  <!--end of period available and selected section-->
-
   <!--period body-->
   <div class="period-body">
-    <div class="period-available-body">
-      <ul class="period-list">
-        <li *ngFor="let availablePeriod of availablePeriods"
-          matTooltip="Select {{ availablePeriod.name }} ({{availablePeriod.type}} period)">
-          <a (click)="onSelectPeriod(availablePeriod, $event)">
-            {{ availablePeriod.name }}
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div class="period-selected-body">
-      <ul class="period-list">
-        <li *ngFor="let selectedPeriod of selectedPeriods"
-          matTooltip="Remove {{ selectedPeriod.name }} ({{selectedPeriod.type}} period)">
-          <a (click)="onDeselectPeriod(selectedPeriod, $event)">
-            <span class="badge badge-info period-item-badge">{{ selectedPeriod.type }}</span>&nbsp;
-            <span>{{ selectedPeriod.name }}</span>
-          </a>
-        </li>
-      </ul>
-    </div>
+    <table class="table table-bordered period-available">
+      <tr>
+        <td class="p-1">
+          <div class="d-flex justify-content-between">
+            <button mat-stroked-button class="pr-1" (click)="onTogglePeriodTypeSelection($event)"
+              [disabled]="periodFilterConfig.disablePeriodTypeSelection">
+              {{ selectedPeriodType || 'Period Type'}}
+              <mat-icon>arrow_drop_down</mat-icon>
+            </button>
+            <mat-card class="period-type-container" *ngIf="showPeriodTypeSelection">
+              <ul class="period-type-list">
+                <li *ngFor="let periodType of periodTypes"><a
+                    [ngClass]="{'selected-period-type': selectedPeriodType === periodType.id}"
+                    (click)="onUpdatePeriodType($event, periodType.id)">{{ periodType.name }}</a>
+                </li>
+              </ul>
+            </mat-card>
+            <div class="btn-group">
+              <button type="button" mat-icon-button matTooltip="Previous year" (click)="pushPeriod($event, 'PREV')">
+                <mat-icon>navigate_before</mat-icon>
+              </button>
+              <button type="button" mat-icon-button matTooltip="Next year" (click)="pushPeriod($event, 'NEXT')"
+                [disabled]="selectedYear === currentYear">
+                <mat-icon>navigate_next</mat-icon>
+              </button>
+              <div class="d-flex align-items-center mr-2" style="height: 43px;">{{selectedYear}}</div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="period-available-body p-1">
+          <ul class="period-list">
+            <li *ngFor="let availablePeriod of availablePeriods"
+              matTooltip="Select {{ availablePeriod.name }} ({{availablePeriod.type}} period)">
+              <a (click)="onSelectPeriod(availablePeriod, $event)">
+                <div class="period-list-icon"></div>
+                <span>{{ availablePeriod.name }}</span>
+              </a>
+            </li>
+          </ul>
+          <div class="d-flex justify-content-center">
+            <button mat-flat-button (click)="onSelectAllPeriods($event)" matTooltip="Select all periods">SELECT
+              ALL</button>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <table class="table table-bordered period-selected">
+      <tr>
+        <td>
+          <div class="d-flex align-items-center" style="height: 27px;">
+            Selected
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="period-selected-body p-1">
+          <div class="selected-period-list">
+            <div class="selected-period-chip" *ngFor="let selectedPeriod of selectedPeriods"
+              matTooltip="Remove {{ selectedPeriod.name }} ({{selectedPeriod.type}} period)">
+              <span>{{ selectedPeriod.name }}</span>
+              <span (click)="onDeselectPeriod(selectedPeriod, $event)" class="selected-period-close">&times;</span>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <button matTooltip="Unselect all periods" mat-flat-button class="period-btn"
+              (click)="onDeselectAllPeriods($event)">
+              DESELECT ALL
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+
   </div>
   <!--end of period body-->
 

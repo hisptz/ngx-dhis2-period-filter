@@ -31,6 +31,7 @@
   flex: 1;
   padding: 0.5em;
   font-size: 13px;
+  position: relative;
 }
 
 .period-available-header {
@@ -50,9 +51,8 @@
 .period-badge {
   display: flex;
   align-items: center;
-  font-weight: lighter !important;
   border-radius: 2px;
-  font-size: 12px;
+  font-size: 11px;
   height: 22px;
 }
 
@@ -63,21 +63,21 @@
 .period-body {
   display: flex;
   width: 100%;
-  border-left: solid 1px #dddddd;
-  border-right: solid 1px #dddddd;
-  border-bottom: solid 1px #dddddd;
+}
+
+.period-available {
+  overflow: auto;
+  width: 54%;
+}
+
+.period-selected {
+  margin-left: 5px;
+  width: 46%;
 }
 
 .period-available-body,
 .period-selected-body {
-  padding: 0.5em;
-  height: 270px;
   overflow: auto;
-  flex: 1;
-}
-
-.period-available-body {
-  border-right: solid 1px #dddddd;
 }
 
 .period-filter-btns {
@@ -104,22 +104,31 @@
 
 .period-list {
   list-style-type: none;
-  padding: 5px;
+  height: 305px;
+  padding: 0;
+  overflow: auto;
+}
+
+.selected-period-list {
+  height: 320px;
+  padding: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .period-list > li > a {
-  padding: 10px;
-  display: flex;
+  padding: 5px;
+  display: inline-flex;
   align-items: center;
-  width: 100%;
   cursor: pointer;
   font-size: 14px;
   color: #000000;
   cursor: pointer;
+  border-radius: 7px;
 }
 
 .period-list > li > a:hover {
-  background-color: #f5f5f5;
+  background-color: #e0e0e0;
 }
 
 .ngx-dhis2-period__period-buttons {
@@ -138,26 +147,55 @@
 
 .period-type-container {
   position: absolute;
-  max-height: 300px;
-  overflow: auto;
-  padding: 0;
+  z-index: 500;
+  min-width: 200px;
+  top: 60px;
+  padding: 2px 2px 2px 0;
+  border-radius: 2px;
+  background-color: #ffffff;
 }
 
 .period-type-list {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  overflow: auto;
+  max-height: 300px;
 }
 
 .period-type-list > li > a {
   display: block;
   text-decoration: none;
   color: #222222;
-  padding: 7px;
+  padding: 8px;
   cursor: pointer;
 }
 
 .period-type-list > li > a:hover,
 .selected-period-type {
   background-color: #f5f5f5;
+}
+
+.selected-period-chip {
+  margin: 3px;
+  border-radius: 7px;
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px 1px 6px;
+  font-size: 13px;
+  background-color: #b2dfdb;
+}
+
+.selected-period-close {
+  font-size: 17px;
+  margin-left: 3px;
+  color: #00796b;
+  cursor: pointer;
+}
+
+.period-list-icon {
+  margin-right: 4px;
+  height: 7px;
+  width: 7px;
+  background-color: #9e9e9e;
 }
