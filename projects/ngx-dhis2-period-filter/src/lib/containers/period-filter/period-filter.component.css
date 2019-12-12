@@ -179,14 +179,14 @@
   border-radius: 5px;
   display: inline-flex;
   align-items: center;
-  padding: 1px 7px 1px 6px;
-  font-size: 13px;
+  padding: 2px 8px 2px 8px;
+  font-size: 14px;
   background-color: #b2dfdb;
 }
 
 .selected-period-close {
   font-size: 17px;
-  margin-left: 3px;
+  margin-left: 5px;
   color: #00796b;
   cursor: pointer;
 }
