@@ -124,14 +124,17 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     e.stopPropagation();
 
     if (this.periodFilterConfig.singleSelection) {
+      this.availablePeriods = this.periodInstance.list();
+
+      // Add back the removed period to the available period if applicable
       this.selectedPeriods = [];
     }
 
-    // Add selected period to selection bucket
-    this.selectedPeriods = [...this.selectedPeriods, period];
-
     // Remove selected period to available bucket
     this.availablePeriods = removePeriodFromList(this.availablePeriods, period);
+
+    // Add selected period to selection bucket
+    this.selectedPeriods = [...this.selectedPeriods, period];
 
     if (this.periodFilterConfig.emitOnSelection) {
       this._onUpdatePeriod(false);
@@ -145,10 +148,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     this.selectedPeriods = removePeriodFromList(this.selectedPeriods, period);
 
     // Add back the removed period to the available period if applicable
-    this.availablePeriods = addPeriodToList(this.availablePeriods, {
-      ...period,
-      type: period.type || getPeriodType([period])
-    });
+    this._setAvailablePeriods();
 
     if (this.periodFilterConfig.emitOnSelection) {
       this._onUpdatePeriod(false);

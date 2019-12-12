@@ -60,10 +60,11 @@
       <tr>
         <td class="period-selected-body p-1">
           <div class="selected-period-list">
-            <div class="selected-period-chip" *ngFor="let selectedPeriod of selectedPeriods"
-              matTooltip="Remove {{ selectedPeriod.name }} ({{selectedPeriod.type}} period)">
+            <div class="selected-period-chip" *ngFor="let selectedPeriod of selectedPeriods">
               <span>{{ selectedPeriod.name }}</span>
-              <span (click)="onDeselectPeriod(selectedPeriod, $event)" class="selected-period-close">&times;</span>
+              <span (click)="onDeselectPeriod(selectedPeriod, $event)"
+                matTooltip="Remove {{ selectedPeriod.name }} ({{selectedPeriod.type}} period)"
+                class="selected-period-close">&times;</span>
             </div>
           </div>
           <div class="d-flex justify-content-center">
