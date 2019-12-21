@@ -9,19 +9,17 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { Fn } from '@iapps/function-analytics';
-import { find } from 'lodash';
-
-import { periodFilterConfig } from '../../constants/period-filter-config.constant';
-import { addPeriodToList } from '../../helpers/add-period-to-list.helper';
-import { getAvailablePeriods } from '../../helpers/get-available-periods.helper';
-import { getPeriodType } from '../../helpers/get-period-type.helper';
-import { getSanitizedPeriods } from '../../helpers/get-sanitized-periods.helper';
-import { removePeriodFromList } from '../../helpers/remove-period-from-list.helper';
-import { PeriodFilterConfig } from '../../models/period-filter-config.model';
 import {
   NgxDhis2HttpClientService,
   SystemInfo
 } from '@iapps/ngx-dhis2-http-client';
+import { find } from 'lodash';
+
+import { periodFilterConfig } from '../../constants/period-filter-config.constant';
+import { getAvailablePeriods } from '../../helpers/get-available-periods.helper';
+import { getSanitizedPeriods } from '../../helpers/get-sanitized-periods.helper';
+import { removePeriodFromList } from '../../helpers/remove-period-from-list.helper';
+import { PeriodFilterConfig } from '../../models/period-filter-config.model';
 
 @Component({
   selector: 'ngx-dhis2-period-filter',
@@ -31,12 +29,8 @@ import {
 export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selectedPeriodType: string;
   @Input() selectedPeriods: any[];
-  @Input()
-  periodFilterConfig: PeriodFilterConfig;
-  @Input()
-  calendar: string;
-  @Input()
-  lowestPeriodType: string;
+  @Input() periodFilterConfig: PeriodFilterConfig;
+
   @Output() update = new EventEmitter();
   @Output() close = new EventEmitter();
   @Output() change = new EventEmitter();
@@ -62,10 +56,10 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.lowestPeriodType) {
+    if (this.periodFilterConfig && this.periodFilterConfig.lowestPeriodType) {
       const lowestPeriodType = find(this.periodTypes, [
         'id',
-        this.lowestPeriodType
+        this.periodFilterConfig.lowestPeriodType
       ]);
       if (lowestPeriodType) {
         this.periodTypes = this.periodTypes.filter(
@@ -233,7 +227,7 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
     return {
       items: this.selectedPeriods,
       dimension: 'pe',
-      lowestPeriodType: this.lowestPeriodType,
+      lowestPeriodType: this.periodFilterConfig.lowestPeriodType,
       changed: true
     };
   }

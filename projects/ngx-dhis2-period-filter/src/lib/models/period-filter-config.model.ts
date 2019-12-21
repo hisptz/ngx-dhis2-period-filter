@@ -4,4 +4,5 @@ export interface PeriodFilterConfig {
   singleSelection?: boolean;
   childrenPeriodSortOrder?: string;
   disablePeriodTypeSelection?: boolean;
+  lowestPeriodType?: string;
 }
