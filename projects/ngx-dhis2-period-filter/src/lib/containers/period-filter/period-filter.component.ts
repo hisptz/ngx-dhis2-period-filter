@@ -220,7 +220,9 @@ export class PeriodFilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.close.emit(this._getPeriodSelection());
+    if (this.periodFilterConfig.emitOnDestroy) {
+      this.close.emit(this._getPeriodSelection());
+    }
   }
 
   private _getPeriodSelection() {
