@@ -19,7 +19,7 @@ export class AppComponent {
   periodObject: any;
   action: string;
   periodFilterConfig: PeriodFilterConfig = {
-    singleSelection: false,
+    singleSelection: true,
     emitOnSelection: false,
     childrenPeriodSortOrder: 'ASC'
   };

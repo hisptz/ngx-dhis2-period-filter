@@ -42,7 +42,7 @@
               </a>
             </li>
           </ul>
-          <div class="d-flex justify-content-center">
+          <div *ngIf="!periodFilterConfig.singleSelection" class="d-flex justify-content-center">
             <button mat-flat-button (click)="onSelectAllPeriods($event)" matTooltip="Select all periods">SELECT
               ALL</button>
           </div>
@@ -67,7 +67,7 @@
                 class="selected-period-close">&times;</span>
             </div>
           </div>
-          <div class="d-flex justify-content-center">
+          <div *ngIf="!periodFilterConfig.singleSelection" class="d-flex justify-content-center">
             <button matTooltip="Unselect all periods" mat-flat-button class="period-btn"
               (click)="onDeselectAllPeriods($event)">
               DESELECT ALL
