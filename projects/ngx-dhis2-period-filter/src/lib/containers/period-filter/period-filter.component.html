@@ -4,11 +4,13 @@
     <table class="table table-bordered period-available">
       <tr>
         <td class="p-1">
-          <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-between position-relative">
             <button mat-stroked-button class="pr-1 period-btn" (click)="onTogglePeriodTypeSelection($event)"
               [disabled]="periodFilterConfig.disablePeriodTypeSelection">
-              {{ selectedPeriodType || 'Period Type'}}
-              <mat-icon>arrow_drop_down</mat-icon>
+              <div class="d-flex justify-content-between align-items-center">
+                <span>{{ selectedPeriodType || 'Period Type'}}</span>
+                <mat-icon>arrow_drop_down</mat-icon>
+              </div>
             </button>
             <mat-card class="period-type-container" *ngIf="showPeriodTypeSelection">
               <ul class="period-type-list">

@@ -147,8 +147,8 @@
   position: absolute;
   z-index: 500;
   min-width: 200px;
-  top: 60px;
-  padding: 2px 2px 2px 0;
+  top: 45px;
+  padding: 4px 4px 4px 0;
   border-radius: 2px;
   background-color: #ffffff;
 }
