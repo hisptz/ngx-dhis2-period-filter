@@ -4,11 +4,13 @@
     <table class="table table-bordered period-available">
       <tr>
         <td class="p-1">
-          <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-between position-relative">
             <button mat-stroked-button class="pr-1 period-btn" (click)="onTogglePeriodTypeSelection($event)"
               [disabled]="periodFilterConfig.disablePeriodTypeSelection">
-              {{ selectedPeriodType || 'Period Type'}}
-              <mat-icon>arrow_drop_down</mat-icon>
+              <div class="d-flex justify-content-between align-items-center">
+                <span>{{ selectedPeriodType || 'Period Type'}}</span>
+                <mat-icon>arrow_drop_down</mat-icon>
+              </div>
             </button>
             <mat-card class="period-type-container" *ngIf="showPeriodTypeSelection">
               <ul class="period-type-list">
@@ -42,7 +44,7 @@
               </a>
             </li>
           </ul>
-          <div class="d-flex justify-content-center">
+          <div *ngIf="!periodFilterConfig.singleSelection" class="d-flex justify-content-center">
             <button mat-flat-button (click)="onSelectAllPeriods($event)" matTooltip="Select all periods">SELECT
               ALL</button>
           </div>
@@ -60,13 +62,14 @@
       <tr>
         <td class="period-selected-body p-1">
           <div class="selected-period-list">
-            <div class="selected-period-chip" *ngFor="let selectedPeriod of selectedPeriods"
-              matTooltip="Remove {{ selectedPeriod.name }} ({{selectedPeriod.type}} period)">
+            <div class="selected-period-chip" *ngFor="let selectedPeriod of selectedPeriods">
               <span>{{ selectedPeriod.name }}</span>
-              <span (click)="onDeselectPeriod(selectedPeriod, $event)" class="selected-period-close">&times;</span>
+              <span (click)="onDeselectPeriod(selectedPeriod, $event)"
+                matTooltip="Remove {{ selectedPeriod.name }} ({{selectedPeriod.type}} period)"
+                class="selected-period-close">&times;</span>
             </div>
           </div>
-          <div class="d-flex justify-content-center">
+          <div *ngIf="!periodFilterConfig.singleSelection" class="d-flex justify-content-center">
             <button matTooltip="Unselect all periods" mat-flat-button class="period-btn"
               (click)="onDeselectAllPeriods($event)">
               DESELECT ALL
